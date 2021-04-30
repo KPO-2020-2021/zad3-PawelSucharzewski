@@ -2,7 +2,7 @@
 
 #include "size.hh"
 #include <iostream>
-
+#include <cmath>
 class Vector {
 
 private:
@@ -27,8 +27,25 @@ public:
 
     double &operator [] (int index);
 
+    double size_vector(const Vector &v);
+
+    bool operator ==(const Vector &v) const;
+
 };
 
+bool Vector::operator ==( const Vector &v) const
+{
+    for(int i=0; i<SIZE;i++)
+    if(size[i]!=v[i])
+        return false;
+
+    return true;
+}
+
+
+  double Vector::size_vector(const Vector &v){
+return sqrt(pow(size[0]-v[0],2)+pow(size[1]-v[1],2));
+  }
 std::ostream &operator << (std::ostream &out, Vector const &tmp);
 
 std::istream &operator >> (std::istream &in, Vector &tmp);
@@ -147,7 +164,7 @@ Vector Vector::operator / (const double &tmp) {
  */
 const double &Vector::operator [] (int index) const {
     if (index < 0 || index >= SIZE) {
-        std::cerr << "Error: Wektor jest poza zasiegiem!" << std::endl;
+        throw "Error: Wektor jest poza zasiegiem!" ;
     } // lepiej byłoby rzucić wyjątkiem stdexcept
     return size[index];
 }
@@ -173,7 +190,7 @@ double &Vector::operator[](int index) {
  */
 std::ostream &operator << (std::ostream &out, Vector const &tmp) {
     for (int i = 0; i < SIZE; ++i) {
-        out << "[ " << tmp[i] << " ]\n";
+        out << tmp[i] << " ";
     }
     return out;
 }
